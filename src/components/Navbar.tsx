@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Phone, ArrowRight, Menu, X, Sparkles, Send, Volume2 } from 'lucide-react';
 import { AGENCY_INFO } from '../data/marketingData';
 import { ButterCatSoundEffect } from '../utils/catSound';
+import { ThemeToggle } from './ThemeToggle';
 
 interface NavbarProps {
   onOpenConsultationModal: (defaultService?: string) => void;
@@ -152,6 +153,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
               성공사례
             </button>
             <button
+              onClick={() => scrollToSection('testimonials')}
+              className="px-3 py-2 text-sm font-bold text-amber-800 hover:text-amber-900 hover:bg-amber-50 rounded-lg transition-colors flex items-center gap-1"
+            >
+              <span>✨</span>
+              고객 후기
+            </button>
+            <button
+              onClick={() => scrollToSection('metrics-dashboard')}
+              className="px-3 py-2 text-sm font-bold text-slate-700 hover:text-blue-700 hover:bg-blue-50/70 rounded-lg transition-colors flex items-center gap-1"
+            >
+              <span>📊</span>
+              성과 지표
+            </button>
+            <button
               onClick={() => scrollToSection('brand-story')}
               className="px-3 py-2 text-sm font-bold text-amber-700 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition-colors flex items-center gap-1"
             >
@@ -162,6 +177,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
 
           {/* Right Action buttons */}
           <div className="hidden sm:flex items-center gap-2.5">
+            {/* Bright / Soft Dark Theme Switcher */}
+            <ThemeToggle variant="button" />
+
             <a
               href={AGENCY_INFO.kakaoOpenChatUrl}
               target="_blank"
@@ -192,6 +210,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
 
           {/* Mobile hamburger menu */}
           <div className="flex sm:hidden items-center gap-1.5">
+            {/* Mobile compact theme switcher */}
+            <ThemeToggle variant="compact" />
+
             <a
               href={AGENCY_INFO.kakaoOpenChatUrl}
               target="_blank"
@@ -219,6 +240,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden mt-3 pt-3 border-t border-slate-200 bg-white rounded-2xl p-4 shadow-xl space-y-2 animate-in fade-in slide-in-from-top-4 duration-200">
+            {/* Theme switcher row inside mobile menu */}
+            <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 flex items-center justify-between mb-2">
+              <div className="flex flex-col text-left">
+                <span className="text-xs font-extrabold text-slate-900">화면 테마 설정</span>
+                <span className="text-[10px] text-slate-500 font-medium">심야 열람 시 눈부심 방지</span>
+              </div>
+              <ThemeToggle variant="segmented" />
+            </div>
+
             <p className="text-xs font-bold text-slate-500 px-3 uppercase tracking-wider">
               운영 광고 취급 상품
             </p>
@@ -283,7 +313,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
               </span>
             </button>
 
-            <div className="pt-3 mt-2 border-t border-slate-100 grid grid-cols-3 gap-2">
+            <div className="pt-3 mt-2 border-t border-slate-100 grid grid-cols-2 gap-2">
               <button
                 onClick={() => scrollToSection('calculator')}
                 className="py-2.5 px-2 rounded-xl bg-blue-50 text-blue-800 font-bold text-xs flex items-center justify-center gap-1 border border-blue-200"
@@ -292,14 +322,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
                 <span>맞춤 진단</span>
               </button>
               <button
-                onClick={() => scrollToSection('case-studies')}
-                className="py-2.5 px-2 rounded-xl bg-slate-100 text-slate-800 font-bold text-xs flex items-center justify-center gap-1"
+                onClick={() => scrollToSection('testimonials')}
+                className="py-2.5 px-2 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 font-extrabold text-xs flex items-center justify-center gap-1"
               >
-                <span>성공 사례</span>
+                <span>✨ 고객 후기</span>
+              </button>
+              <button
+                onClick={() => scrollToSection('metrics-dashboard')}
+                className="py-2.5 px-2 rounded-xl bg-indigo-50 text-indigo-900 border border-indigo-200 font-extrabold text-xs flex items-center justify-center gap-1"
+              >
+                <span>📊 성과 지표</span>
               </button>
               <button
                 onClick={() => scrollToSection('brand-story')}
-                className="py-2.5 px-2 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 font-extrabold text-xs flex items-center justify-center gap-1"
+                className="py-2.5 px-2 rounded-xl bg-slate-100 text-slate-800 font-extrabold text-xs flex items-center justify-center gap-1"
               >
                 <span>💧 스토리</span>
               </button>

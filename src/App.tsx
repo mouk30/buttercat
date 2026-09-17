@@ -5,6 +5,8 @@ import { ServiceOverview } from './components/ServiceOverview';
 import { ServiceDetailSection } from './components/ServiceDetailSection';
 import { EstimateCalculator } from './components/EstimateCalculator';
 import { CaseStudies } from './components/CaseStudies';
+import { PerformanceMetricsDashboard } from './components/PerformanceMetricsDashboard';
+import { TestimonialCarousel } from './components/TestimonialCarousel';
 import { BrandStory } from './components/BrandStory';
 import { ProcessSection } from './components/ProcessSection';
 import { FaqSection } from './components/FaqSection';
@@ -109,6 +111,12 @@ export default function App() {
 
         {/* Real Case Studies & Before/After Proof */}
         <CaseStudies onOpenConsultationModal={(cat) => handleOpenModal(undefined, cat)} />
+
+        {/* Data-Driven Performance Metrics Dashboard (Recharts) */}
+        <PerformanceMetricsDashboard onOpenConsultationModal={handleOpenModal} />
+
+        {/* Real Customer Success Stories (Testimonials Carousel) */}
+        <TestimonialCarousel onOpenConsultationModal={handleOpenModal} />
 
         {/* Brand Story & Emotional Value Section */}
         <BrandStory onOpenConsultationModal={() => handleOpenModal()} />

@@ -1,10 +1,213 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
+  html.dark {
+    color-scheme: dark;
+  }
   body {
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 }
+
+/* ==========================================================================
+   Soft Dark Mode System (Optimized for Late-Night Browsers)
+   - Deep, non-glare warm charcoal/slate background (#0b1120)
+   - Elevated soft-slate cards (#131d31, #182337)
+   - Low-fatigue high-contrast typography (#f8fafc, #cbd5e1)
+   - Preserved brand gold, blue, and emerald accents
+   ========================================================================== */
+
+html.dark {
+  background-color: #0b1120;
+}
+
+html.dark body {
+  background-color: #0b1120;
+  color: #cbd5e1;
+}
+
+/* Soft Dark Container & Surface Adjustments */
+html.dark .bg-white {
+  background-color: #131d31;
+}
+
+html.dark .bg-slate-50,
+html.dark .bg-slate-50\/70,
+html.dark .bg-slate-50\/80,
+html.dark .bg-slate-50\/90 {
+  background-color: #0f172a;
+}
+
+html.dark .bg-slate-100,
+html.dark .bg-slate-100\/90,
+html.dark .bg-slate-100\/80,
+html.dark .bg-slate-100\/70 {
+  background-color: #182337;
+}
+
+/* Gentle Slate Borders for Dark Mode */
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-200\/70,
+html.dark .border-slate-200\/80,
+html.dark .border-slate-200\/90,
+html.dark .border-slate-300 {
+  border-color: #24344d;
+}
+
+/* High-Legibility Typography in Dark Mode */
+html.dark .text-slate-900 {
+  color: #f8fafc;
+}
+
+html.dark .text-slate-800 {
+  color: #f1f5f9;
+}
+
+html.dark .text-slate-700 {
+  color: #cbd5e1;
+}
+
+html.dark .text-slate-600 {
+  color: #94a3b8;
+}
+
+html.dark .text-slate-500 {
+  color: #7888a5;
+}
+
+/* Colored Cards in Dark Mode: Ambient Translucent Backgrounds */
+html.dark .bg-amber-50,
+html.dark .bg-amber-50\/60,
+html.dark .bg-amber-50\/70,
+html.dark .bg-amber-50\/80 {
+  background-color: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+html.dark .text-amber-900,
+html.dark .text-amber-800 {
+  color: #fde68a;
+}
+
+html.dark .bg-blue-50,
+html.dark .bg-blue-50\/60,
+html.dark .bg-blue-50\/70,
+html.dark .bg-blue-50\/80 {
+  background-color: rgba(59, 130, 246, 0.13);
+  border-color: rgba(59, 130, 246, 0.28);
+}
+
+html.dark .text-blue-900,
+html.dark .text-blue-800 {
+  color: #93c5fd;
+}
+
+html.dark .bg-emerald-50,
+html.dark .bg-emerald-50\/70,
+html.dark .bg-emerald-50\/80 {
+  background-color: rgba(16, 185, 129, 0.13);
+  border-color: rgba(16, 185, 129, 0.28);
+}
+
+html.dark .text-emerald-900,
+html.dark .text-emerald-800 {
+  color: #6ee7b7;
+}
+
+html.dark .bg-purple-50,
+html.dark .bg-purple-50\/70,
+html.dark .bg-purple-50\/80 {
+  background-color: rgba(168, 85, 247, 0.13);
+  border-color: rgba(168, 85, 247, 0.28);
+}
+
+html.dark .bg-rose-50,
+html.dark .bg-rose-50\/70,
+html.dark .bg-rose-50\/80 {
+  background-color: rgba(244, 63, 94, 0.13);
+  border-color: rgba(244, 63, 94, 0.28);
+}
+
+html.dark .text-rose-900,
+html.dark .text-rose-800 {
+  color: #fda4af;
+}
+
+html.dark .bg-indigo-50,
+html.dark .bg-indigo-50\/70,
+html.dark .bg-indigo-50\/80 {
+  background-color: rgba(99, 102, 241, 0.13);
+  border-color: rgba(99, 102, 241, 0.28);
+}
+
+/* Form Inputs & Interactive Controls in Soft Dark Mode */
+html.dark input:not([type="checkbox"]):not([type="radio"]),
+html.dark textarea,
+html.dark select {
+  background-color: #1a253a !important;
+  color: #f8fafc !important;
+  border-color: #334460 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Glassmorphic Navbar in Soft Dark */
+html.dark nav.bg-white\/95,
+html.dark nav.bg-white\/80 {
+  background-color: rgba(11, 17, 32, 0.92) !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .bg-white\/90 {
+  background-color: rgba(19, 29, 49, 0.92) !important;
+}
+
+/* Shadows in Soft Dark Mode */
+html.dark .shadow-sm,
+html.dark .shadow-md,
+html.dark .shadow-lg,
+html.dark .shadow-xl {
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark [class*="shadow-slate-"] {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Recharts in Soft Dark Mode */
+html.dark .recharts-default-tooltip {
+  background-color: #1a253a !important;
+  border-color: #334460 !important;
+  color: #f8fafc !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+}
+
+html.dark .recharts-tooltip-item {
+  color: #cbd5e1 !important;
+}
+
+html.dark .recharts-cartesian-grid-horizontal line,
+html.dark .recharts-cartesian-grid-vertical line {
+  stroke: #1e2c44 !important;
+}
+
+html.dark .recharts-text {
+  fill: #94a3b8 !important;
+}
+
+/* Subtle glow for late-night ambient highlights */
+html.dark .bg-gradient-to-b.from-blue-50\/70 {
+  background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.95), rgba(11, 17, 32, 0.98), #0b1120) !important;
+}
+

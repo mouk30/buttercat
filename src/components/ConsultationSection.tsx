@@ -21,6 +21,7 @@ import {
   SERVICES_DATA
 } from '../data/marketingData';
 import { ConsultationFormData, ServiceId, SubmittedInquiry } from '../types';
+import { copyAndOpenKakaoChat } from '../utils/kakaoFormat';
 
 interface ConsultationSectionProps {
   initialService?: ServiceId;
@@ -48,8 +49,36 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [copiedToKakao, setCopiedToKakao] = useState(false);
   const [submittedInquiries, setSubmittedInquiries] = useState<SubmittedInquiry[]>([]);
   const [showRecentInquiries, setShowRecentInquiries] = useState(false);
+
+  const handleSendViaKakao = async () => {
+    const serviceNames = formData.selectedServices.map(
+      (id) => SERVICES_DATA.find((s) => s.id === id)?.title || id
+    );
+    const ok = await copyAndOpenKakaoChat({
+      companyName: formData.companyName,
+      contactName: formData.contactName,
+      phone: formData.phone,
+      industry: formData.industry,
+      selectedServices: serviceNames,
+      budgetRange: formData.budgetRange,
+      websiteUrl: formData.websiteUrl,
+      inquiryDetails: formData.inquiryDetails
+    });
+    if (ok) {
+      setCopiedToKakao(true);
+    }
+  };
+
+  const handleDirectKakaoSubmit = async () => {
+    if (!formData.companyName || !formData.contactName || !formData.phone) {
+      alert('업체명, 담당자명, 연락처를 먼저 입력해 주세요.');
+      return;
+    }
+    await handleSendViaKakao();
+  };
 
   // Sync external props if they change
   useEffect(() => {
@@ -279,7 +308,7 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
                   <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed mb-6">
                     담당 전담 마케팅 디렉터가 입력해 주신 정보(상호명: {formData.companyName})를 토대로 상권 분석을 진행한 후 빠르게 연락드리겠습니다.
                   </p>
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 max-w-sm mx-auto mb-8 text-left space-y-1.5 font-medium">
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 max-w-sm mx-auto mb-6 text-left space-y-1.5 font-medium">
                     <div>
                       <strong className="text-slate-900">담당자:</strong> {formData.contactName} ({formData.phone})
                     </div>
@@ -291,12 +320,40 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
                       <strong className="text-slate-900">업종:</strong> {formData.industry}
                     </div>
                   </div>
-                  <button
-                    onClick={handleResetForm}
-                    className="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 cursor-pointer"
-                  >
-                    추가 문의 작성하기
-                  </button>
+
+                  {/* Immediate Kakao Open Chat Action Card */}
+                  <div className="max-w-md mx-auto mb-6 p-4 sm:p-5 rounded-2xl bg-[#FEE500]/25 border-2 border-[#FEE500] text-slate-900 text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1.5 text-xs font-black text-[#3C1E1E]">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                      <span>⚡ 오픈채팅으로 신청서 즉시 전송하기</span>
+                    </div>
+                    <p className="text-xs text-slate-700 mb-3 leading-relaxed">
+                      작성하신 상담 신청서가 정갈하게 준비되었습니다.<br />
+                      아래 버튼을 누르면 <strong>신청서가 자동 복사</strong>되고 <strong>카카오톡 오픈채팅방</strong>이 열립니다. 채팅창에 <strong>붙여넣기(Ctrl+V)</strong>만 하시면 10분 내 빠른 답변을 받으실 수 있습니다!
+                    </p>
+                    <button
+                      type="button"
+                      onClick={handleSendViaKakao}
+                      className="w-full py-3.5 px-4 rounded-xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                    >
+                      <MessageCircle className="w-4 h-4 text-[#3C1E1E]" />
+                      <span>카카오톡 오픈채팅방 열고 신청서 전송</span>
+                    </button>
+                    {copiedToKakao && (
+                      <p className="mt-2 text-[11px] font-bold text-emerald-700 animate-in fade-in">
+                        ✓ 신청서 내용이 클립보드에 복사되었습니다! 채팅창에 붙여넣기하세요.
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex justify-center gap-3">
+                    <button
+                      onClick={handleResetForm}
+                      className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      추가 문의 작성하기
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -485,24 +542,38 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
                     </label>
                   </div>
 
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-base shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center gap-2">
-                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        상담 신청 중...
-                      </span>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        <span>무료 마케팅 진단 & 견적 신청 완료하기</span>
-                      </>
-                    )}
-                  </button>
+                  {/* Dual Action Submit Buttons */}
+                  <div className="space-y-2.5 pt-2">
+                    <button
+                      type="button"
+                      onClick={handleDirectKakaoSubmit}
+                      className="w-full py-4 rounded-xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-base shadow-lg shadow-amber-500/15 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                    >
+                      <MessageCircle className="w-5 h-5 text-[#3C1E1E]" />
+                      <span>카카오톡 오픈채팅으로 신청서 즉시 전송하기 (추천)</span>
+                    </button>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          상담 신청 접수 중...
+                        </span>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          <span>웹사이트에 온라인 신청서만 접수하기</span>
+                        </>
+                      )}
+                    </button>
+                    <p className="text-[11px] text-slate-500 text-center font-medium">
+                      * [카카오톡 오픈채팅 전송] 선택 시 작성하신 정보가 자동 복사되어 1초 만에 카톡으로 바로 전달됩니다.
+                    </p>
+                  </div>
                 </form>
               )}
             </div>

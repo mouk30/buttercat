@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Send, CheckCircle2, Building, User, Phone, Sparkles } from 'lucide-react';
+import { X, Send, CheckCircle2, Building, User, Phone, Sparkles, MessageCircle } from 'lucide-react';
 import { SERVICES_DATA, INDUSTRY_OPTIONS, AGENCY_INFO } from '../data/marketingData';
 import { ServiceId } from '../types';
+import { copyAndOpenKakaoChat } from '../utils/kakaoFormat';
 
 interface QuickInquiryModalProps {
   isOpen: boolean;
@@ -24,6 +25,30 @@ export const QuickInquiryModal: React.FC<QuickInquiryModalProps> = ({
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [copiedToKakao, setCopiedToKakao] = useState(false);
+
+  const handleSendViaKakao = async () => {
+    const serviceName = SERVICES_DATA.find((s) => s.id === selectedService)?.title || selectedService;
+    const ok = await copyAndOpenKakaoChat({
+      companyName,
+      contactName,
+      phone,
+      industry,
+      selectedServices: [serviceName],
+      inquiryDetails: notes
+    });
+    if (ok) {
+      setCopiedToKakao(true);
+    }
+  };
+
+  const handleDirectKakaoSubmit = async () => {
+    if (!companyName || !contactName || !phone) {
+      alert('업체명, 담당자명, 연락처를 먼저 입력해 주세요.');
+      return;
+    }
+    await handleSendViaKakao();
+  };
 
   useEffect(() => {
     if (defaultService) {
@@ -91,19 +116,45 @@ export const QuickInquiryModal: React.FC<QuickInquiryModalProps> = ({
         </button>
 
         {isSuccess ? (
-          <div className="text-center py-8 animate-in fade-in">
-            <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-              <CheckCircle2 className="w-8 h-8" />
+          <div className="text-center py-6 animate-in fade-in">
+            <div className="w-14 h-14 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+              <CheckCircle2 className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-black text-slate-900 mb-2">상담 접수가 완료되었습니다!</h3>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-sm mx-auto mb-6">
-              담당 디렉터가 <strong>{companyName}</strong>의 온라인 노출 현황을 분석하여 남겨주신 연락처(<strong>{phone}</strong>)로 신속히 답변드리겠습니다.
+            <h3 className="text-lg font-black text-slate-900 mb-1.5">상담 접수가 완료되었습니다!</h3>
+            <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto mb-4">
+              담당 디렉터가 <strong>{companyName}</strong>의 온라인 노출 현황을 분석하여 연락처(<strong>{phone}</strong>)로 답변드리겠습니다.
             </p>
+
+            {/* Kakao Open Chat Instant Push */}
+            <div className="p-4 rounded-2xl bg-[#FEE500]/25 border-2 border-[#FEE500] mb-4 text-center">
+              <div className="flex items-center justify-center gap-1.5 mb-1 text-xs font-black text-[#3C1E1E]">
+                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span>⚡ 카톡 오픈채팅으로 1초 만에 바로 보내기</span>
+              </div>
+              <p className="text-[11px] text-slate-700 mb-2.5 leading-snug">
+                작성하신 신청서가 자동 복사되었습니다.<br />
+                아래 버튼을 눌러 <strong>카카오톡 오픈채팅방</strong>에 <strong>붙여넣기(Ctrl+V)</strong>하시면 즉시 대표님께 전달됩니다!
+              </p>
+              <button
+                type="button"
+                onClick={handleSendViaKakao}
+                className="w-full py-3 px-3 rounded-xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-xs shadow-md flex items-center justify-center gap-1.5 cursor-pointer active:scale-98"
+              >
+                <MessageCircle className="w-4 h-4 text-[#3C1E1E]" />
+                <span>오픈채팅방 열고 신청서 전송하기</span>
+              </button>
+              {copiedToKakao && (
+                <p className="mt-1.5 text-[10px] font-bold text-emerald-700 animate-in fade-in">
+                  ✓ 신청서가 복사되었습니다! 채팅창에 붙여넣기하세요.
+                </p>
+              )}
+            </div>
+
             <button
               onClick={handleClose}
-              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors cursor-pointer shadow-md shadow-blue-500/20"
+              className="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
             >
-              확인
+              창 닫기
             </button>
           </div>
         ) : (
@@ -257,20 +308,32 @@ export const QuickInquiryModal: React.FC<QuickInquiryModalProps> = ({
                 * 입력해주신 정보는 상담 및 맞춤 견적 안내 목적으로만 안전하게 사용됩니다.
               </p>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
-              >
-                {isSubmitting ? (
-                  <span>전송 중...</span>
-                ) : (
-                  <>
-                    <Send className="w-3.5 h-3.5" />
-                    <span>무료 진단 신청 완료</span>
-                  </>
-                )}
-              </button>
+              {/* Dual Action Buttons */}
+              <div className="space-y-2 pt-1">
+                <button
+                  type="button"
+                  onClick={handleDirectKakaoSubmit}
+                  className="w-full py-3.5 rounded-xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-xs shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <MessageCircle className="w-4 h-4 text-[#3C1E1E]" />
+                  <span>카톡 오픈채팅으로 신청서 즉시 전송하기 (추천)</span>
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <span>접수 처리 중...</span>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>온라인 신청서만 접수하기</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </form>
           </div>
         )}

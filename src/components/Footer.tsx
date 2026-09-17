@@ -1,6 +1,7 @@
 import React from 'react';
 import { Phone, Mail, MapPin, ShieldCheck, ArrowUp } from 'lucide-react';
 import { AGENCY_INFO } from '../data/marketingData';
+import { ThemeToggle } from './ThemeToggle';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -117,14 +118,17 @@ export const Footer: React.FC = () => {
             </p>
           </div>
 
-          <button
-            onClick={scrollToTop}
-            className="self-end md:self-auto p-2.5 px-4 rounded-xl bg-white hover:bg-slate-200 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1.5 shadow-2xs cursor-pointer font-bold"
-            title="맨 위로"
-          >
-            <span>TOP</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-2 self-end md:self-auto">
+            <ThemeToggle variant="button" />
+            <button
+              onClick={scrollToTop}
+              className="p-2.5 px-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors flex items-center gap-1.5 shadow-2xs cursor-pointer font-bold"
+              title="맨 위로"
+            >
+              <span>TOP</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

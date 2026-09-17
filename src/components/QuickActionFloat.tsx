@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Phone, ArrowUp, Sparkles, Volume2 } from 'lucide-react';
 import { AGENCY_INFO } from '../data/marketingData';
 import { ButterCatSoundEffect } from '../utils/catSound';
+import { ThemeToggle } from './ThemeToggle';
 
 interface QuickActionFloatProps {
   onOpenModal: () => void;
@@ -31,16 +32,19 @@ export const QuickActionFloat: React.FC<QuickActionFloatProps> = ({ onOpenModal 
 
   return (
     <div className="fixed bottom-5 right-4 sm:right-6 z-40 flex flex-col items-end gap-2.5">
-      {/* Scroll to Top */}
-      {showTop && (
-        <button
-          onClick={scrollToTop}
-          aria-label="페이지 맨 위로"
-          className="w-10 h-10 rounded-full bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-lg flex items-center justify-center transition-all duration-200 cursor-pointer"
-        >
-          <ArrowUp className="w-4 h-4" />
-        </button>
-      )}
+      {/* Floating Controls: Theme Switcher & Scroll to Top */}
+      <div className="flex items-center gap-2">
+        <ThemeToggle variant="compact" className="w-10 h-10 rounded-full shadow-lg" />
+        {showTop && (
+          <button
+            onClick={scrollToTop}
+            aria-label="페이지 맨 위로"
+            className="w-10 h-10 rounded-full bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-lg flex items-center justify-center transition-all duration-200 cursor-pointer"
+          >
+            <ArrowUp className="w-4 h-4" />
+          </button>
+        )}
+      </div>
 
       {/* Floating Free Diagnosis & Estimate CTA Button with interactive Buttercat mascot */}
       <button

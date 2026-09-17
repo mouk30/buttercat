@@ -8,10 +8,12 @@ import {
   Square,
   Building,
   Target,
-  Send
+  Send,
+  MessageCircle
 } from 'lucide-react';
 import { INDUSTRY_OPTIONS, SERVICES_DATA } from '../data/marketingData';
 import { ServiceId } from '../types';
+import { copyAndOpenKakaoChat } from '../utils/kakaoFormat';
 
 interface EstimateCalculatorProps {
   onApplyEstimate: (data: {
@@ -79,6 +81,22 @@ export const EstimateCalculator: React.FC<EstimateCalculatorProps> = ({ onApplyE
       estimatedMonthly: 0,
       estimatedOnetime: 0,
       summary: summaryText
+    });
+  };
+
+  const handleSendEstimateViaKakao = async () => {
+    const selectedServiceNames = activeServices.map(
+      (id) => SERVICES_DATA.find((s) => s.id === id)?.title || id
+    );
+    const goalLabel = MARKETING_GOALS.find((g) => g.id === selectedGoal)?.label || '';
+
+    await copyAndOpenKakaoChat({
+      companyName: '가견적 상담 희망 고객',
+      contactName: '카카오톡 문의',
+      phone: '카카오톡 실시간 대화',
+      industry: selectedIndustry,
+      selectedServices: selectedServiceNames,
+      inquiryDetails: `마케팅 목표: ${goalLabel}\n선택 채널: ${selectedServiceNames.join(', ')}`
     });
   };
 
@@ -261,18 +279,30 @@ export const EstimateCalculator: React.FC<EstimateCalculatorProps> = ({ onApplyE
               </div>
             </div>
 
-            {/* Action button to proceed */}
-            <button
-              onClick={handleApply}
-              disabled={activeServices.length === 0}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-xl shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
-            >
-              <Send className="w-4 h-4" />
-              <span>선택 조건으로 1:1 무료 상담 신청</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            {/* Dual Action Buttons */}
+            <div className="space-y-2.5">
+              <button
+                type="button"
+                onClick={handleSendEstimateViaKakao}
+                disabled={activeServices.length === 0}
+                className="w-full py-4 rounded-2xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-sm shadow-xl shadow-amber-500/15 hover:shadow-2xl hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <MessageCircle className="w-4 h-4 text-[#3C1E1E]" />
+                <span>카카오톡 오픈채팅으로 이 견적 바로 문의 (추천)</span>
+              </button>
+
+              <button
+                onClick={handleApply}
+                disabled={activeServices.length === 0}
+                className="w-full py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>선택 조건으로 웹 상담 신청서 작성하기</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
             <p className="text-[11px] text-slate-500 text-center mt-3 font-medium">
-              * 상담 신청 시 전문 마케터가 24시간 이내 맞춤 분석 리포트를 안내해 드립니다.
+              * 오픈채팅 문의 시 계산된 관심 채널과 업종 정보가 자동 복사되어 바로 전송하실 수 있습니다.
             </p>
           </div>
         </div>

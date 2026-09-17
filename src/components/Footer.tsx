@@ -107,11 +107,8 @@ export const Footer: React.FC = () => {
         {/* Bottom copyright & Business Info */}
         <div className="pt-8 flex flex-col md:flex-row md:items-center justify-between gap-4 text-[11px] text-slate-500 font-medium">
           <div>
-            <p>
-              (주)버터캣 마케팅 솔루션 | 대표자: 홍길동 | 사업자등록번호: {AGENCY_INFO.businessNumber}
-            </p>
-            <p className="mt-1">
-              주소: {AGENCY_INFO.address} | 통신판매업신고: 제2025-서울강남-04821호
+            <p className="font-semibold text-slate-700 dark:text-slate-300">
+              (주)버터캣 마케팅 솔루션
             </p>
             <p className="mt-1 text-slate-400">
               Copyright © 2026 BUTTERCAT MARKETING Inc. All rights reserved.

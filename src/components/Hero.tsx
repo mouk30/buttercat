@@ -74,21 +74,21 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultationModal, onScrollToS
             </p>
 
             {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-3.5 mb-8 w-full">
               <button
                 onClick={onOpenConsultationModal}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-base shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                className="w-full sm:w-auto px-5 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/35 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 group cursor-pointer whitespace-nowrap"
               >
                 <span>1:1 무료 마케팅 상권 진단 신청</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1.5 transition-transform shrink-0" />
               </button>
               <a
                 href={AGENCY_INFO.kakaoOpenChatUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-base shadow-lg shadow-amber-500/15 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-sm sm:text-base shadow-lg shadow-amber-500/15 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
               >
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse shrink-0"></span>
                 <span>카톡 오픈채팅 빠른상담</span>
               </a>
             </div>

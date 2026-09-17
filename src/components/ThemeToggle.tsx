@@ -56,7 +56,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       <button
         type="button"
         onClick={toggleTheme}
-        className={`relative p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
+        className={`relative p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center shrink-0 ${
           isSoftDark
             ? 'bg-slate-800/90 text-amber-300 border-slate-700 hover:bg-slate-750 hover:border-amber-400/40 shadow-xs'
             : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200/80 hover:text-slate-900 shadow-xs'
@@ -65,9 +65,9 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         aria-label={isSoftDark ? '밝은 모드로 전환' : '소프트 야간 모드로 전환'}
       >
         {isSoftDark ? (
-          <Moon className="w-4 h-4 text-indigo-300 animate-in spin-in-12 duration-300" />
+          <Moon className="w-4 h-4 text-indigo-300 animate-in spin-in-12 duration-300 shrink-0" />
         ) : (
-          <Sun className="w-4 h-4 text-amber-500 animate-in spin-in-12 duration-300" />
+          <Sun className="w-4 h-4 text-amber-500 animate-in spin-in-12 duration-300 shrink-0" />
         )}
       </button>
     );
@@ -78,7 +78,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
     <button
       type="button"
       onClick={toggleTheme}
-      className={`group relative inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border shadow-xs active:scale-95 ${
+      className={`group relative inline-flex items-center gap-1.5 px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border shadow-xs active:scale-95 whitespace-nowrap shrink-0 ${
         isSoftDark
           ? 'bg-slate-800 text-slate-200 border-slate-700 hover:border-indigo-400/50 hover:bg-slate-750'
           : 'bg-slate-100/90 text-slate-700 border-slate-200 hover:border-amber-300 hover:bg-amber-50/50 hover:text-slate-900'
@@ -86,28 +86,28 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       title="클릭하여 밝은 모드 / 소프트 야간 모드를 전환합니다"
       aria-label="화면 테마 전환"
     >
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex items-center justify-center shrink-0">
         {isSoftDark ? (
-          <div className="flex items-center gap-1 text-indigo-300">
-            <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform" />
-            <span className="text-[11px] font-extrabold text-indigo-200">소프트 야간</span>
+          <div className="flex items-center gap-1 text-indigo-300 whitespace-nowrap">
+            <Moon className="w-3.5 h-3.5 text-indigo-400 group-hover:rotate-12 transition-transform shrink-0" />
+            <span className="text-[11px] font-extrabold text-indigo-200 whitespace-nowrap">소프트 야간</span>
           </div>
         ) : (
-          <div className="flex items-center gap-1 text-slate-700">
-            <Sun className="w-3.5 h-3.5 text-amber-500 group-hover:rotate-45 transition-transform" />
-            <span className="text-[11px] font-extrabold text-slate-800">밝은 모드</span>
+          <div className="flex items-center gap-1 text-slate-700 whitespace-nowrap">
+            <Sun className="w-3.5 h-3.5 text-amber-500 group-hover:rotate-45 transition-transform shrink-0" />
+            <span className="text-[11px] font-extrabold text-slate-800 whitespace-nowrap">밝은 모드</span>
           </div>
         )}
       </div>
 
       <span
-        className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded-full border transition-colors ${
+        className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded-full border transition-colors whitespace-nowrap shrink-0 hidden sm:inline-block ${
           isSoftDark
             ? 'bg-indigo-950/80 text-indigo-300 border-indigo-700/60'
             : 'bg-amber-100/80 text-amber-800 border-amber-300/80'
         }`}
       >
-        {isSoftDark ? '눈 편한 모드' : '기본'}
+        {isSoftDark ? '눈편함' : '기본'}
       </span>
     </button>
   );

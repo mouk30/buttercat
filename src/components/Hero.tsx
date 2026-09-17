@@ -1,6 +1,8 @@
-import React from 'react';
-import { ArrowRight, CheckCircle2, TrendingUp, ShieldCheck, Sparkles, MapPin, BookOpen, Instagram, Youtube, Globe, PhoneCall, Star, Award, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, CheckCircle2, TrendingUp, ShieldCheck, Sparkles, MapPin, BookOpen, Instagram, Youtube, Globe, PhoneCall, Star, Award, ChevronRight, Volume2, VolumeX, Smile, RefreshCw } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { AGENCY_INFO } from '../data/marketingData';
+import { ButterCatSoundEffect } from '../utils/catSound';
 
 interface HeroProps {
   onOpenConsultationModal: () => void;
@@ -8,6 +10,24 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenConsultationModal, onScrollToService }) => {
+  const [isComforted, setIsComforted] = useState(false);
+  const [meowCount, setMeowCount] = useState(0);
+
+  const handleCatClick = () => {
+    setMeowCount((prev) => prev + 1);
+    if (!isComforted) {
+      setIsComforted(true);
+      ButterCatSoundEffect.playCheer();
+    } else {
+      ButterCatSoundEffect.playMeow(1.0 + (meowCount % 3) * 0.15);
+    }
+  };
+
+  const handleResetComfort = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsComforted(false);
+    ButterCatSoundEffect.playMeow(0.9);
+  };
   return (
     <section className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden bg-gradient-to-b from-blue-50/70 via-sky-50/30 to-white">
       {/* Radiant ambient glow & clean background texture */}
@@ -62,13 +82,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultationModal, onScrollToS
                 <span>1:1 무료 마케팅 상권 진단 신청</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
               </button>
-              <button
-                onClick={() => onScrollToService('calculator')}
-                className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200/90 font-bold text-base shadow-md shadow-slate-200/50 hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+              <a
+                href={AGENCY_INFO.kakaoOpenChatUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-base shadow-lg shadow-amber-500/15 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-amber-500" />
-                <span>맞춤 마케팅 채널 진단 가이드</span>
-              </button>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span>카톡 오픈채팅 빠른상담</span>
+              </a>
             </div>
 
             {/* 4 guarantees in bright white pill cards */}
@@ -94,37 +116,105 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultationModal, onScrollToS
 
           {/* Right Column: Giant Crying Buttercat Character Showcase */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-sm sm:max-w-md bg-gradient-to-b from-amber-50/90 via-white to-amber-100/60 p-6 sm:p-7 rounded-3xl border-2 border-amber-300/90 shadow-2xl shadow-amber-500/20 text-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="relative w-full max-w-sm sm:max-w-md bg-gradient-to-b from-amber-50/90 via-white to-amber-100/60 p-6 sm:p-7 rounded-3xl border-2 border-amber-300/90 shadow-2xl shadow-amber-500/20 text-center select-none"
+            >
               
-              {/* Humorous Comic Speech Bubble */}
-              <div className="inline-block relative bg-white text-slate-900 px-4 py-2.5 rounded-2xl rounded-bl-xs border border-amber-300 shadow-md text-xs sm:text-sm font-black mb-4">
-                <span className="text-amber-500 mr-1">💧</span>
-                "대표님... 오늘도 손님이 없어서 혼자 울고 계셨나요?"
-                <div className="absolute -bottom-2 left-6 w-3 h-3 bg-white border-b border-r border-amber-300 rotate-45"></div>
-              </div>
+              {/* Humorous Comic Speech Bubble with Dynamic Emotion */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isComforted ? 'comforted' : 'crying'}
+                  initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.95 }}
+                  transition={{ duration: 0.25 }}
+                  className="inline-block relative bg-white text-slate-900 px-4 py-2.5 rounded-2xl rounded-bl-xs border border-amber-300 shadow-md text-xs sm:text-sm font-black mb-4 cursor-pointer hover:border-amber-400"
+                  onClick={handleCatClick}
+                  title="고양이를 클릭해보세요!"
+                >
+                  {isComforted ? (
+                    <span className="flex items-center gap-1 text-emerald-700">
+                      <span>✨</span>
+                      <span>"야옹~! 버터캣 덕분에 예약 폭주해서 웃음 만개!"</span>
+                      <span>😸</span>
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 text-slate-900">
+                      <span className="text-amber-500 animate-bounce">💧</span>
+                      <span>"대표님... 오늘도 손님이 없어서 혼자 울고 계셨나요?"</span>
+                    </span>
+                  )}
+                  <div className="absolute -bottom-2 left-6 w-3 h-3 bg-white border-b border-r border-amber-300 rotate-45"></div>
+                </motion.div>
+              </AnimatePresence>
 
-              {/* Massive Buttercat Crying Mascot Image */}
-              <div className="relative mx-auto w-60 sm:w-72 md:w-80 aspect-square rounded-3xl overflow-hidden bg-gradient-to-b from-amber-100 via-amber-50 to-amber-200/70 border-4 border-amber-300 shadow-xl group hover:scale-[1.03] transition-all duration-300">
+              {/* Massive Buttercat Crying Mascot Image with interactive touch & sound */}
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={handleCatClick}
+                className="relative mx-auto w-60 sm:w-72 md:w-80 aspect-square rounded-3xl overflow-hidden bg-gradient-to-b from-amber-100 via-amber-50 to-amber-200/70 border-4 border-amber-300 shadow-xl group cursor-pointer"
+              >
                 <img
                   src="/images/buttercat_logo.jpg"
                   alt="눈물 글썽이는 버터캣 공식 캐릭터"
-                  className="w-full h-full object-contain p-2 drop-shadow-md"
+                  className={`w-full h-full object-contain p-2 drop-shadow-md transition-all duration-300 ${
+                    isComforted ? 'rotate-1 brightness-105' : 'group-hover:scale-105'
+                  }`}
                   referrerPolicy="no-referrer"
                 />
-                
-                {/* Visual badge overlaid on character */}
-                <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs border border-amber-300 px-3 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+
+                {/* Floating interactive hint badge */}
+                <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs border border-amber-300 px-3 py-1 rounded-full shadow-sm flex items-center gap-1.5 pointer-events-none">
                   <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-                  <span className="text-[11px] font-black text-amber-900">버터캣 공식 마스코트</span>
+                  <span className="text-[11px] font-black text-amber-900">
+                    {isComforted ? '행복한 버터캣 💛' : '클릭해서 눈물 닦아주기 🐾'}
+                  </span>
+                </div>
+
+                {/* Sound effect indicator pill */}
+                <div className="absolute top-3 right-3 bg-amber-500/90 hover:bg-amber-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1 transition-all pointer-events-none">
+                  <Volume2 className="w-3.5 h-3.5 animate-pulse" />
+                  <span>소리ON</span>
                 </div>
 
                 <div className="absolute bottom-3 right-3 bg-slate-900/85 backdrop-blur-xs text-amber-300 text-[11px] font-extrabold px-3 py-1 rounded-full shadow-sm">
-                  눈물 닦고 매출 떡상! 🚀
+                  {isComforted ? '매출 폭발 성공! 🎉' : '눈물 닦고 매출 떡상! 🚀'}
                 </div>
+
+                {/* Ripple tear or sparkle effect on comforted */}
+                {isComforted && (
+                  <motion.div
+                    initial={{ scale: 0, opacity: 0.9 }}
+                    animate={{ scale: 1.5, opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute inset-0 bg-radial from-amber-300/40 to-transparent pointer-events-none"
+                  />
+                )}
+              </motion.div>
+
+              {/* Reset or interactive toggle prompt */}
+              <div className="mt-3 flex items-center justify-between px-2 text-[11px] font-bold text-slate-500">
+                <span className="flex items-center gap-1 text-amber-700">
+                  <Volume2 className="w-3.5 h-3.5" />
+                  터치하면 고양이 소리가 나요!
+                </span>
+                {isComforted && (
+                  <button
+                    onClick={handleResetComfort}
+                    className="flex items-center gap-1 text-slate-400 hover:text-slate-600 underline text-[10px] cursor-pointer"
+                  >
+                    <RefreshCw className="w-3 h-3" />
+                    다시 울기
+                  </button>
+                )}
               </div>
 
               {/* Result transformation banner */}
-              <div className="mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 text-white shadow-md border border-amber-400/80">
+              <div className="mt-2 p-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 text-white shadow-md border border-amber-400/80">
                 <p className="text-[11px] font-bold text-amber-100">
                   매출 정체 · 무의미한 광고비 지출 끝!
                 </p>
@@ -141,7 +231,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultationModal, onScrollToS
                 <span>매장 상위노출 & 매출 반등 성공</span>
               </div>
 
-            </div>
+            </motion.div>
           </div>
 
         </div>

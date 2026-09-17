@@ -82,12 +82,21 @@ export const Footer: React.FC = () => {
               <div className="text-2xl font-black text-slate-900">{AGENCY_INFO.hotline}</div>
               <div className="text-slate-600 font-medium">{AGENCY_INFO.consultationHours}</div>
               <div className="text-slate-600 font-medium">긴급상담: {AGENCY_INFO.directPhone}</div>
-              <div className="pt-2">
+              <div className="pt-2 flex flex-col sm:flex-row gap-2">
+                <a
+                  href={AGENCY_INFO.kakaoOpenChatUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black transition-all text-xs shadow-2xs"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  <span>카톡 오픈채팅 상담</span>
+                </a>
                 <a
                   href="#consultation"
-                  className="inline-block px-4 py-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-600 hover:text-white font-bold transition-all text-xs shadow-2xs"
+                  className="inline-flex items-center justify-center px-3 py-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-600 hover:text-white font-bold transition-all text-xs shadow-2xs"
                 >
-                  온라인 무료 진단 신청 &rarr;
+                  무료 진단 &rarr;
                 </a>
               </div>
             </div>

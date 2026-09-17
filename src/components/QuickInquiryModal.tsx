@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Send, CheckCircle2, Building, User, Phone, Sparkles } from 'lucide-react';
-import { SERVICES_DATA, INDUSTRY_OPTIONS } from '../data/marketingData';
+import { SERVICES_DATA, INDUSTRY_OPTIONS, AGENCY_INFO } from '../data/marketingData';
 import { ServiceId } from '../types';
 
 interface QuickInquiryModalProps {
@@ -130,6 +130,24 @@ export const QuickInquiryModal: React.FC<QuickInquiryModalProps> = ({
                   대표님의 업종과 지역에 맞춰 실시간 1위 노출 전략을 제시해 드립니다.
                 </p>
               </div>
+            </div>
+
+            {/* Instant Kakao Open Chat Option */}
+            <div className="mb-4">
+              <a
+                href={AGENCY_INFO.kakaoOpenChatUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 px-3.5 rounded-xl bg-[#FEE500] hover:bg-[#edd400] text-[#3C1E1E] font-black text-xs flex items-center justify-between shadow-2xs hover:shadow-xs transition-all"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                  <span>양식 작성 없이 카톡으로 즉시 상담하기</span>
+                </span>
+                <span className="text-[11px] font-extrabold underline underline-offset-2">
+                  오픈채팅 연결 &rarr;
+                </span>
+              </a>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">

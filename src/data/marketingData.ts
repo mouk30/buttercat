@@ -8,6 +8,7 @@ export const AGENCY_INFO = {
   hotline: '010-6835-8897',
   directPhone: '010-6835-8897',
   kakaoId: 'buttercat_mkt',
+  kakaoOpenChatUrl: 'https://open.kakao.com/o/sbW1x2Ni',
   consultationHours: '평일 09:30 ~ 18:30 (주말 및 공휴일 긴급문의 접수가능)',
   address: '서울특별시 강남구 테헤란로 152 강남파이낸스센터 18층',
   businessNumber: '214-88-94102',

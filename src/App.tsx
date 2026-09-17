@@ -5,6 +5,7 @@ import { ServiceOverview } from './components/ServiceOverview';
 import { ServiceDetailSection } from './components/ServiceDetailSection';
 import { EstimateCalculator } from './components/EstimateCalculator';
 import { CaseStudies } from './components/CaseStudies';
+import { BrandStory } from './components/BrandStory';
 import { ProcessSection } from './components/ProcessSection';
 import { FaqSection } from './components/FaqSection';
 import { ConsultationSection } from './components/ConsultationSection';
@@ -108,6 +109,9 @@ export default function App() {
 
         {/* Real Case Studies & Before/After Proof */}
         <CaseStudies onOpenConsultationModal={(cat) => handleOpenModal(undefined, cat)} />
+
+        {/* Brand Story & Emotional Value Section */}
+        <BrandStory onOpenConsultationModal={() => handleOpenModal()} />
 
         {/* 5-Step Proven Workflow */}
         <ProcessSection />

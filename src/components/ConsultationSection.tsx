@@ -11,7 +11,8 @@ import {
   Globe,
   Sparkles,
   CheckSquare,
-  Square
+  Square,
+  MessageCircle
 } from 'lucide-react';
 import {
   AGENCY_INFO,
@@ -188,6 +189,29 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
 
             {/* Direct Contact Cards */}
             <div className="space-y-4 mb-8">
+              <a
+                href={AGENCY_INFO.kakaoOpenChatUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-2xl bg-[#FEE500]/90 hover:bg-[#FEE500] border border-amber-300 flex items-center gap-4 shadow-sm hover:shadow-md transition-all group"
+              >
+                <div className="p-3 rounded-xl bg-white/90 text-[#3C1E1E] shadow-2xs">
+                  <MessageCircle className="w-5 h-5 text-[#3C1E1E]" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[11px] font-black text-[#3C1E1E]/80 uppercase">실시간 1:1 채팅</span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                  </div>
+                  <div className="text-base font-black text-[#3C1E1E] group-hover:underline">
+                    카카오톡 오픈채팅 바로 연결 &rarr;
+                  </div>
+                  <div className="text-[11px] text-[#3C1E1E]/75 font-semibold">
+                    10분 이내 빠른 답변 · 견적서 & 제안서 즉시 수신
+                  </div>
+                </div>
+              </a>
+
               <div className="p-4 rounded-2xl bg-white border border-slate-200 flex items-center gap-4 shadow-sm">
                 <div className="p-3 rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
                   <Phone className="w-5 h-5" />

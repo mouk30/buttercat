@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, ArrowRight, Menu, X, Sparkles, Send } from 'lucide-react';
+import { Phone, ArrowRight, Menu, X, Sparkles, Send, Volume2 } from 'lucide-react';
 import { AGENCY_INFO } from '../data/marketingData';
+import { ButterCatSoundEffect } from '../utils/catSound';
 
 interface NavbarProps {
   onOpenConsultationModal: (defaultService?: string) => void;
@@ -59,23 +60,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Brand Logo */}
+          {/* Brand Logo with Interactive Meow & Tap Animation */}
           <a
             href="#"
             className="flex items-center gap-3 group py-0.5"
             onClick={(e) => {
               e.preventDefault();
+              ButterCatSoundEffect.playMeow(1.1);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
+            title="버터캣 클릭 시 귀여운 야옹 소리가 납니다!"
           >
-            <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden bg-gradient-to-b from-amber-50 to-amber-100 border-2 border-amber-400 shadow-md shadow-amber-500/25 group-hover:scale-105 group-hover:rotate-1 transition-all duration-300 shrink-0">
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden bg-gradient-to-b from-amber-50 to-amber-100 border-2 border-amber-400 shadow-md shadow-amber-500/25 group-hover:scale-105 group-hover:rotate-3 active:scale-95 transition-all duration-300 shrink-0 cursor-pointer">
               <img
                 src="/images/buttercat_logo.jpg"
                 alt="버터캣 로고"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
-              <span className="absolute -bottom-0.5 -right-0.5 text-xs sm:text-sm select-none drop-shadow-sm">💧</span>
+              <span className="absolute -bottom-0.5 -right-0.5 text-xs sm:text-sm select-none drop-shadow-sm group-hover:animate-bounce">💧</span>
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
@@ -148,10 +151,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
             >
               성공사례
             </button>
+            <button
+              onClick={() => scrollToSection('brand-story')}
+              className="px-3 py-2 text-sm font-bold text-amber-700 hover:text-amber-800 hover:bg-amber-50 rounded-lg transition-colors flex items-center gap-1"
+            >
+              <span>💧</span>
+              브랜드 스토리
+            </button>
           </div>
 
           {/* Right Action buttons */}
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2.5">
+            <a
+              href={AGENCY_INFO.kakaoOpenChatUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs lg:text-sm font-black text-[#3C1E1E] bg-[#FEE500] hover:bg-[#edd400] transition-all px-3 py-2 rounded-xl shadow-xs hover:shadow-md hover:scale-105 active:scale-95"
+              title="카카오톡 오픈채팅 실시간 1:1 상담"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+              <span>카톡 오픈채팅</span>
+            </a>
             <a
               href={`tel:${AGENCY_INFO.hotline}`}
               className="flex items-center gap-1.5 text-xs lg:text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors px-3 py-2 rounded-xl bg-slate-100/90 hover:bg-slate-200/70 border border-slate-200/80"
@@ -165,22 +185,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
             >
               <span className="flex items-center gap-1.5">
                 <Send className="w-3.5 h-3.5" />
-                <span>무료 진단 상담</span>
+                <span>무료 진단</span>
               </span>
             </button>
           </div>
 
           {/* Mobile hamburger menu */}
-          <div className="flex sm:hidden items-center gap-2">
+          <div className="flex sm:hidden items-center gap-1.5">
+            <a
+              href={AGENCY_INFO.kakaoOpenChatUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-2.5 py-1.5 text-xs font-black text-[#3C1E1E] bg-[#FEE500] hover:bg-[#edd400] rounded-lg shadow-2xs flex items-center gap-1"
+            >
+              <span>카톡</span>
+            </a>
             <button
               onClick={() => onOpenConsultationModal()}
-              className="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 rounded-lg shadow-sm"
+              className="px-2.5 py-1.5 text-xs font-bold text-white bg-blue-600 rounded-lg shadow-2xs"
             >
               상담신청
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:text-blue-600 hover:bg-slate-100 rounded-lg"
+              className="p-1.5 text-slate-700 hover:text-blue-600 hover:bg-slate-100 rounded-lg"
               aria-label="메뉴 열기"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -255,19 +283,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
               </span>
             </button>
 
-            <div className="pt-3 mt-2 border-t border-slate-100 grid grid-cols-2 gap-2">
+            <div className="pt-3 mt-2 border-t border-slate-100 grid grid-cols-3 gap-2">
               <button
                 onClick={() => scrollToSection('calculator')}
-                className="py-2.5 px-3 rounded-xl bg-blue-50 text-blue-800 font-bold text-xs flex items-center justify-center gap-1 border border-blue-200"
+                className="py-2.5 px-2 rounded-xl bg-blue-50 text-blue-800 font-bold text-xs flex items-center justify-center gap-1 border border-blue-200"
               >
-                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                맞춤 전략 진단
+                <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                <span>맞춤 진단</span>
               </button>
               <button
                 onClick={() => scrollToSection('case-studies')}
-                className="py-2.5 px-3 rounded-xl bg-slate-100 text-slate-800 font-bold text-xs flex items-center justify-center gap-1"
+                className="py-2.5 px-2 rounded-xl bg-slate-100 text-slate-800 font-bold text-xs flex items-center justify-center gap-1"
               >
-                성공 사례 보기
+                <span>성공 사례</span>
+              </button>
+              <button
+                onClick={() => scrollToSection('brand-story')}
+                className="py-2.5 px-2 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 font-extrabold text-xs flex items-center justify-center gap-1"
+              >
+                <span>💧 스토리</span>
               </button>
             </div>
           </div>

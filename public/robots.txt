@@ -10,4 +10,4 @@ Allow: /
 User-agent: Daum
 Allow: /
 
-Sitemap: https://ais-pre-llyehc6rsn6kcu5yfufyzl-266850070721.asia-east1.run.app/sitemap.xml
+Sitemap: https://www.bbuttercat.com/sitemap.xml
